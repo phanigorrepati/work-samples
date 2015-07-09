@@ -1,0 +1,244 @@
+<style type="text/css" media="print">
+  @page { size: landscape; }
+</style>
+<style>
+        
+.wrap {
+   word-wrap: break-word; 
+  
+}
+</style>
+
+<h3>Search VOB's</h3>
+<div class="row hidden-print">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="border-details">
+      <form class="form-horizontal" role="form">  
+        <input type="hidden" class="form-control" name="search" id="search" value="search">  
+        <div class="content">
+          <div>
+            <div class="row">
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <div class="form-group">
+                  <label for="company_name" class="col-md-4 col-lg-4 control-label">Company Name</label>
+                  <div class="col-md-7 col-lg-7">
+                    <input type="text" class="form-control" name="company_name_veteran" id="company_name_veteran" value="<%= params[:company_name_veteran] %>">   
+                    <input type="hidden" class="form-control" name="company_name" id="company_name" value="<%= params[:company_name] %>">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-7 col-lg-7">
+                <div class="form-group">
+                  <div class="pull-left col-sm-12 col-md-6 col-lg-6 text-right">
+                  <label for="search_by_product" class="control-label ">Search by Product or service</label>
+                  </div>
+                  <div class="col-md-5 col-lg-5">
+                     <input type="text" class="form-control" name="search_by_product" id="search_by_product" value="<%= params[:search_by_product] %>">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <div class="form-group">
+                  <label for="company_name" class="col-md-4 col-lg-4 control-label">City</label>
+                  <div class="col-md-7 col-lg-7">   
+                    <input type="text" class="form-control" id="city_name_veteran" name="city_name_veteran" value="<%= params[:city_name_veteran] %>">   
+                    <input type="hidden" class="form-control" id="city_name" name="city_name" value="<%= params[:city_name] %>">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-7 col-lg-7">
+                <div class="form-group">
+                  <div class="pull-left col-sm-12 col-md-6 col-lg-6">
+                  <label for="inputEmail3" class="control-label">Search by NAICS or SIC or Industry Description</label>
+                  </div>
+                  <div class="col-md-5 col-lg-5">  
+                     <input type="hidden" class="form-control" id="search_by_code" name="search_by_code" value="<%= params[:search_by_code] %>"> 
+                     <input type="text" class="form-control" id="search_by_naics" name="search_by_naics" value="<%= params[:search_by_naics] %>">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <div class="form-group">
+                  <label for="company_name" class="col-md-4 col-lg-4 control-label">State</label>
+                  <div class="col-md-3 col-lg-7">    
+                    <%= select_tag :state, options_for_select(us_states, params[:state]), prompt: "Select State", :class => 'form-control'  %>
+                  
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-7 col-lg-7">
+                <div class="form-group">
+                  <div class="pull-left col-sm-12 col-md-6 col-lg-6 text-right">
+                  <label for="zip_code" class="control-label">Postal Code</label>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                     <input type="text" class="form-control zipcode" id="postal_code" name="postal_code" value="<%= params[:postal_code] %>">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="bg-primary-link text-right">
+          <button type="submit" class="btn btn-info">Search <span class="glyphicon glyphicon-circle-arrow-right"></span></button>  
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<br/>
+<h3>VOB List</h3>
+
+<table class="table table-bordered table-striped visible-print-block" id="search_result_table" style="margin-left:-110px;">
+
+  <thead>
+    <tr style="background:#DDDDDD;">  
+      <th>Name</th>  
+      <th>Company Name</th>
+      <th>City/State/Postal Code</th>
+      <th>Phone No.</th>
+      <th>Email</th>
+      <th>NAICS\SIC\ <br />Description</th>
+      <th>Business Profile</th>
+	    <th>Website</th>
+    </tr>
+  </thead>
+  <tbody>    
+  <% if @appln_infos %>  
+  <% @appln_infos.each do |appln_info|%>
+    <tr>
+      <td><%= appln_info.veteran.name if appln_info.veteran  %></td>
+      <td><%= appln_info.company_info.company_name if appln_info.company_info %></td>
+      <td>
+      <%= appln_info.company_info.city if appln_info.company_info %>
+      <%= appln_info.company_info.state if appln_info.company_info %>  
+      <%= appln_info.company_info.postal_code if appln_info.company_info %>  
+      </td>
+      <td><%= appln_info.veteran.contact_phone if appln_info.veteran %></td>    
+      <td style="width:100px;" class="wrap">
+      <div style="width:100px;" class="wrap"> 
+      <%= appln_info.veteran.email if appln_info.veteran %>
+      </div>
+      </td>    
+      <td style="width:140px;" class="wrap">
+        <div style="width:140px;" class="wrap"> 
+          <%= get_appln_info_code(appln_info) %>   
+        </div>
+      </td>  
+      <td style="width:175px;">  
+        <div style="width:175px;" class="wrap" >
+      <%= raw appln_info.business_profile_info.description if appln_info.business_profile_info.description.present? %>  
+        </div>
+      </td>
+      <td style="width:100px;" class="wrap"> 
+        <div style="width:100px;" class="wrap">  
+        <a href="http://<%= appln_info.company_info.company_website %>" target="_blank"><%= appln_info.company_info.company_website %></a>
+        </div>
+      </td> 
+	  </tr>
+	  </tr>
+  <% end %>
+  <% else %>
+   <tr>  
+    <% if params[:search] && @search_done ==  true%> 
+      <td colspan="7">No records found</td>
+    <% else %>
+      <td colspan="7">Enter the Search text and click on Search</td> 
+    <% end %>
+   
+  </tr>
+  <% end %>  
+  </tbody>
+</table>  
+
+<table class="table table-bordered table-striped hidden-print" id="search_result_table">
+
+  <thead>
+    <tr style="background:#DDDDDD;">  
+      <th>Name</th>  
+      <th>Company Name</th>
+      <th>City/State/Postal Code</th>
+      <th>Phone No.</th>
+      <th>Email</th>
+      <th>NAICS\SIC\Description</th>
+      <th>Business Profile</th>
+	  <th>Website</th>
+    </tr>
+  </thead>
+  <tbody>    
+  <% if @appln_infos %>  
+  <% @appln_infos.each do |appln_info|%>
+    <tr>
+      <td><%= appln_info.veteran.name if appln_info.veteran  %></td>
+      <td><%= appln_info.company_info.company_name if appln_info.company_info %></td>
+      <td>
+      <%= appln_info.company_info.city if appln_info.company_info %>
+      <%= appln_info.company_info.state if appln_info.company_info %>  
+      <%= appln_info.company_info.postal_code if appln_info.company_info %>  
+      </td>
+      <td><%= appln_info.veteran.contact_phone if appln_info.veteran %></td>    
+      <td><%= appln_info.veteran.email if appln_info.veteran %></td>    
+      <td><%= get_appln_info_code(appln_info) %></td>  
+      <td style="width:300px;" class="text_highlight  visible-print-block">  
+        <div class="width:300px;">
+      <%= raw appln_info.business_profile_info.description if appln_info.business_profile_info.description.present? %>  
+        </div>
+      </td>
+      <td class="text_highlight hidden-print" >  <%=  raw appln_info.business_profile_info.description.truncate(110, omission: "...") %>(<a href='javascript:void()' data-toggle='modal' data-target='#page<%=appln_info.business_profile_info.id.to_s%>'>More Info</a>)</td>
+	    <td><a href="http://<%= appln_info.company_info.company_website %>" target="_blank"><%= appln_info.company_info.company_website %></a></td> 
+	  </tr>
+	    <%= render :partial => 'description', :locals => {:page_id => "page"+appln_info.business_profile_info.id.to_s, :des => appln_info.business_profile_info.description} %>
+    </tr>
+  <% end %>
+  <% else %>
+   <tr>  
+    <% if params[:search] && @search_done ==  true%> 
+      <td colspan="7">No records found</td>
+    <% else %>
+      <td colspan="7">Enter the Search text and click on Search</td> 
+    <% end %>
+   
+  </tr>
+  <% end %>  
+  </tbody>
+</table>
+
+<div class="row hidden-print">
+  <div class="col-sm-12 col-md-6 col-lg-6">
+    <p class="pull-left">
+
+	  <% if @appln_infos.blank? %>	
+	   <% if params[:search] && @search_done ==  true%> 
+        <div class="no-record">No records found</div>
+      <% else %>
+        <div class="no-record">Enter the Search text and click on Search</div> 
+      <% end %>  
+	  <%else%>  
+	  
+	  <%= page_entries_info @appln_infos, :model => 'Records' %>
+	  <%end%>
+  
+  </p> 
+  
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="pull-right">
+      <%= will_paginate @appln_infos, renderer: BootstrapPagination::Rails %>
+      </div>
+    </div> 
+  
+     <button class="btn btn-info pull-right btn-lg hidden-print" type="button" onclick="window.print();">
+      Print
+    </button>    
+       
+  </div>
+<br /> 
+<br />
+<br />
