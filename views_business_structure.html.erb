@@ -1,0 +1,273 @@
+<div class="authform"> 
+  <%= form_for [@appln_info,@business_structure], :html => { :class=> "form-horizontal form-control-access", :multipart => true, :id => 'business-structure' } do |f| %>  
+  <%= render :partial => 'layouts/back_url' %>  
+    <fieldset class="blank-box-no-border"> 
+      <div class="row">  
+        <div class="col-lg-12 col-sm-12 col-md-12 text-center">
+          <% if @business_structure.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@business_structure.errors.count, "error") %> prohibited this business_structure from being saved:</h2>
+            <ul>
+              <% @business_structure.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %> 
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :business_structure_type, "Business Structure" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <%= f.select :business_structure_type,options_for_select(BUSINESS_STRUCTURE_TYPE,@business_structure.business_structure_type), {:prompt => 'Choose a business structure'}, { :class => 'form-control' } %>
+              </div>
+            </div> 
+          </div> 
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :established_date, "Date Business was Established" %> <span class="glyphicon glyphicon-star-red"></span>    
+              </div>  
+              <div class='col-sm-12 col-md-5 col-lg-5'> 
+                <div class="input-group date datetimepickerclass-max-date">
+                  <input type='text' name="business_structure[established_date]" class="form-control date-mask" data-date-format="MM/DD/YYYY" value="<%=@business_structure.established_date.strftime('%m/%d/%Y') if @business_structure.established_date %>" style="cursor: not-allowed;background-color: #eeeeee;opacity: 1;" />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>  
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :is_acquisition, "Was this Business Acquired?" %> <span class="glyphicon glyphicon-star-red"></span>    
+              </div>  
+              <div class='col-sm-12 col-md-5 col-lg-5 text-left'> 
+                  <label for="business_structure_is_acquisition_true" class="radio-inline"> <%= radio_button "business_structure", "is_acquisition" , true, :onclick => '$(".list_red").show();' %> Yes </label> 
+                  <label for="business_structure_is_acquisition_false" class="radio-inline"> <%= radio_button "business_structure", "is_acquisition" , false, :onclick => '$(".list_red").hide();' %> No</label> 
+              </div>
+            </div>
+          </div> 
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :acquisition_date, "Date of Acquisition" %> <span class="glyphicon glyphicon-star-red list_red" <span class="glyphicon glyphicon-star-red list_red1" style="display: <%= @business_structure.is_acquisition ? 'inline' : 'none' %>;"></span>    
+              </div>  
+              <div class='col-sm-12 col-md-5 col-lg-5'>  
+                <div class="input-group date datetimepickerclass-max-date"> 
+                  <input type='text' name="business_structure[acquisition_date]" class="form-control date-mask" data-date-format="MM/DD/YYYY" value="<%=@business_structure.acquisition_date.strftime('%m/%d/%Y') if @business_structure.acquisition_date %>" style="cursor: not-allowed;background-color: #eeeeee;opacity: 1;" />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>    
+                </div>
+              </div>
+            </div> 
+          </div> 
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :type_of_acquisition, "Type of Acquisition" %> <span class="glyphicon glyphicon-star-red list_red" style="display: <%= @business_structure.is_acquisition ? 'inline' : 'none' %>;"></span>    
+              </div>  
+              <div class='col-sm-12 col-md-5 col-lg-7 text-left'>  
+                 <div class="row"> 
+                   <!-- <div class="col-lg-6">
+                 <label for="business_structure_type_of_acquisition_started" class="radio-inline" style="padding-left:0px;"><%#= f.check_box :type_of_acquisition_started, :class => 'acquisition-group' %> Started Business </label>
+                   </div>  -->
+                  <div class="col-lg-6">  
+                 <label for="business_structure_type_of_acquisition_existing" class="radio-inline" style="padding-left:0px;"><%= f.check_box :type_of_acquisition_existing, :class => 'acquisition-group' %> Bought Existing Business</label> 
+                  </div>
+                     <div class="col-lg-6">   
+                  <label for="business_structure_type_of_acquisition_secured" class="radio-inline" style="padding-left:0px;"><%= f.check_box :type_of_acquisition_secured, :class => 'acquisition-group' %> Secured Franchise </label> 
+                     </div>
+                 </div>
+                 <div class="row"> 
+                      
+                    <div class="col-lg-6"> 
+                 <label for="business_structure_type_of_acquisition_merger" class="radio-inline" style="padding-left:0px;"><%= f.check_box :type_of_acquisition_merger, :class => 'acquisition-group' %> Merger or Consolidation </label> 
+                    </div>
+                 </div>
+                 <div class="row">  
+                      <div class="col-lg-12">  
+                        <div class="col-lg-6"> 
+                      <label for="business_structure_type_of_type_of_acquisition_other" class="radio-inline" style="padding-left:0px;">Others (Please specify)</label>
+                       </div>
+                       <div class="col-lg-6" style="padding-top:5px;"> 
+                      <%= f.text_field :type_of_acquisition_other, class: 'form-control' %>    
+                      </div>
+                    </div>  
+                 </div>
+              </div>
+            </div> 
+          </div>
+          
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :gross_receipts_year_1, "Gross receipts for the past two fiscal year" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>
+              <div class="col-sm-12 col-md-5 col-lg-5 text-left">  
+                <div class="row"> 
+                     <div class="col-sm-12 col-md-5 col-lg-6 text-left">
+                       <div class="row"> 
+                          <div class="col-sm-12 col-md-2 col-lg-3"> 
+                           <label> Year </label> 
+                          </div>   
+                        <div class="col-sm-12 col-md-2 col-lg-9">  
+                          <%= f.text_field :gross_receipts_year_1, class: 'form-control number year' %>
+                        </div>  
+                       </div> 
+                      </div>  
+                      <div class="col-sm-12 col-md-5 col-lg-6 text-left"> 
+                         <div class="row"> 
+                           <div class="col-sm-12 col-md-2 col-lg-1"> 
+                            <label> $ </label> 
+                           </div>    
+                        <div class="col-sm-12 col-md-2 col-lg-9">
+                            <%= f.text_field :gross_receipts_price_1, class: 'form-control number currency' %>
+                        </div> 
+                        </div> 
+                     </div>
+                </div>
+               </div> 
+            </div> 
+          </div> 
+      
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%#= f.label :gross_receipts_year_2, "Gross receipts for the past two fiscal year" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>
+              <div class="col-sm-12 col-md-5 col-lg-5 text-left">  
+                <div class="row"> 
+                     <div class="col-sm-12 col-md-5 col-lg-6 text-left">
+                       <div class="row"> 
+                          <div class="col-sm-12 col-md-2 col-lg-3"> 
+                           <label> Year </label> 
+                          </div>   
+                        <div class="col-sm-12 col-md-2 col-lg-9">  
+                          <%= f.text_field :gross_receipts_year_2, class: 'form-control number year' %>
+                        </div>  
+                       </div> 
+                      </div>  
+                      <div class="col-sm-12 col-md-5 col-lg-6 text-left"> 
+                         <div class="row"> 
+                           <div class="col-sm-12 col-md-2 col-lg-1"> 
+                            <label> $ </label> 
+                           </div>    
+                        <div class="col-sm-12 col-md-2 col-lg-9">
+                            <%= f.text_field :gross_receipts_price_2, class: 'form-control number currency' %>
+                        </div> 
+                        </div> 
+                     </div>
+                </div>
+               </div> 
+            </div> 
+          </div>
+      
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :dun_and_bradstreet, "Dun & Bradstreet#" %>     
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-3">
+                <%= f.text_field :dun_and_bradstreet, class: 'form-control' %>
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :cage_code, "Cage Code#" %>  
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-3">
+                <%= f.text_field :cage_code, class: 'form-control' %>
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">  
+                <label for="business_structure_bussiness_premises"> Business premises are <span class="glyphicon glyphicon-star-red"></span> <br /> (choose all that apply) </label> 
+                <%#= f.label :bussiness_premises, "Bussiness premises are (choose all that apply)" %>    
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-7 text-left">
+                <label for="business_structure_owend" class="radio-inline"><%= f.check_box :owend, :class => 'premises-group' %> Owned </label> 
+                <label for="business_structure_rented" class="radio-inline"><%= f.check_box :rented, :class => 'premises-group' %> Leased/Rented </label> 
+                <label for="business_structure_home" class="radio-inline"><%= f.check_box :home, :class => 'premises-group' %> Home Based </label> 
+               
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right"> 
+                  <label for="business_structure_business_locations">Update list of all Business Location<span class="glyphicon glyphicon-star-red"></span> <br /> (Include full address) </label> 
+                <%#=f.label :business_locations, "Update list of all business locations,(Include full address)" %>    
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5" id="business_structure_business_locations_box"> 
+                <%= render :partial => 'file_download_perview/file_details', :locals => {:object => @business_structure, :field => 'business_locations' }   %> 
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :geographic_markets_served %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <%= f.select :geographic_markets_served,options_for_select(GEOGRAPHIC_MARKET_SERVED,@business_structure.geographic_markets_served), {:prompt => 'Choose Geographic Markets Served'}, { :class => 'form-control' } %>
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :number_of_employee_full_time, "Number of Employees (Full time)" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <%= f.text_field :number_of_employee_full_time, :class => 'form-control currency' %>
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :number_of_employee_part_time, "Number of Employees (Part time)" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <%= f.text_field :number_of_employee_part_time, :class => 'form-control currency' %>
+              </div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <div class="row">  
+              <div class="col-sm-12 col-md-5 col-lg-5 text-right">
+                <%= f.label :number_of_employee_veteran, "Number of Veteran Employees" %>  <span class="glyphicon glyphicon-star-red"></span>   
+              </div>  
+              <div class="col-sm-12 col-md-5 col-lg-5">
+                <%= f.text_field :number_of_employee_veteran, :class => 'form-control currency' %>
+              </div>
+            </div> 
+          </div>       
+   
+        </div>
+      </div>  
+    </fieldset>  
+    <div>
+      <%= render 'layouts/form_buttons', locals: { back_path: edit_appln_info_business_profile_info_path(@appln_info,@appln_info.business_profile_info) , next_path:  edit_appln_info_business_relationship_info_path(@appln_info,@appln_info.business_relationship_info), :notes => @appln_info.business_structure } %>
+    </div>
+  <% end %>  
+</div> 
+  
+
+
+
+
+   
