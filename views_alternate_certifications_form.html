@@ -1,0 +1,66 @@
+<div class="authform"> 
+  <%= form_for([@appln_info,@alternate_certification], :html => {:class=> "form-horizontal form-control-access",  :multipart => true, :id => 'alternate-certification' }) do |f| %> 
+     <%= render :partial => 'layouts/back_url' %>  
+    <%= f.hidden_field :dummy, :value => true %>   
+      
+      <div class="row">  
+        <div class="col-lg-12 col-sm-12 col-md-12 text-center">
+          <% if @alternate_certification.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@alternate_certification.errors.count, "error") %> prohibited this alternate certification from being saved:</h2>
+            <ul>
+              <% @alternate_certification.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %> 
+          <div class="form-group">  
+            <div class="row">  
+              <div class="col-sm-12 col-md-12 col-lg-12 text-left">
+                Please upload a copy of your current certification document(s) from any of the following organizations recognized by the NVBDC: <span class="glyphicon glyphicon-star-red"></span> <br /><br />  
+                Center for Verification and Evaluation (CVE) <br />   
+                National Minority Supplier Development Council (NMSDC)   <br />   
+                The Women's Business Enterprise National Council (WBENC)   <br />  
+                National Gay & Lesbian Chamber of Commerce (NGLCC)  <br />
+              </div>
+            </div>  
+            <div class="row">  
+              <div class="col-sm-12 col-md-12 col-lg-12 text-left">
+                &nbsp;
+              </div>  
+              <div class="col-sm-12 col-md-12 col-lg-5" id="alternate_certification_doc_box">  
+                <%= render :partial => 'file_download_perview/file_details', :locals => {:object => @alternate_certification, :field => 'doc' }   %>
+                
+              </div>
+            </div>
+          </div> 
+          
+          <div class="form-group">  
+            <div class="row">  
+              <div class="col-sm-12 col-md-12 col-lg-12 text-left">
+               Copy of FEIN document from the Internal Revenue Service (IRS)
+              </div>
+            </div>  
+            <div class="row">  
+              <div class="col-sm-12 col-md-12 col-lg-12 text-left">
+                &nbsp;
+              </div>  
+              <div class="col-sm-12 col-md-12 col-lg-5" id="alternate_certification_copy_of_fein_document_box">  
+                <%= render :partial => 'file_download_perview/file_details', :locals => {:object => @alternate_certification, :field => 'copy_of_fein_document' }   %>
+                
+              </div>
+            </div>
+          </div>
+          
+          
+          
+        </div>
+        </div>
+    </fieldset>      
+    <div>
+      <%= render 'layouts/form_buttons', locals: { back_path: edit_appln_info_business_profile_info_path(@appln_info,@appln_info.business_profile_info) , next_path:  edit_appln_info_declaration_path(@appln_info,@appln_info.declaration), :notes => @appln_info.alternate_certification } %>
+    </div>
+  <% end %> 
+</div> 
+
