@@ -1,0 +1,108 @@
+<div class="application_steps" id="application_steps" data-application-status="<%=@appln_info.appln_status%>" data-user-type="<%=current_user.role%>" data-application-id="<%=@appln_info.id%>">
+  <h4>Application Steps</h4>  
+  <% if @appln_info.appln_type == 'fastrack'%>
+  <ol class="list-unstyled app-steps" data-app-company-info="<%=@appln_info.company_info_vob_done %>">
+    <li><a href="<%= edit_appln_info_company_info_path(@appln_info,@appln_info.company_info) %>"><span class="<%= controller.class == CompanyInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;1</span>Company Info</a>
+      <% if current_user.veteran? && @appln_info.company_info_vob_done == true%>
+      <span class="glyphicon glyphicon-star-green"></span>
+      <% end%>
+    </li>
+    <li><a href="<%= edit_appln_info_identity_info_path(@appln_info,@appln_info.identity_info) %>"><span class="<%= controller.class == IdentityInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;2</span>Veteran Identity Info</a>
+      <% if current_user.veteran? &&  @appln_info.identity_vob_done == true %>
+      <span class="glyphicon glyphicon-star-green"></span>
+      <% end%> 
+    </li>
+    <li><a href="<%= edit_appln_info_business_profile_info_path(@appln_info,@appln_info.business_profile_info) %>"><span class="<%= controller.class == BusinessProfileInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;3</span>Business Profile Info
+    </a>
+    <% if current_user.veteran? &&  @appln_info.business_profile_vob_done == true %>
+    <span class="glyphicon glyphicon-star-green"></span>
+    <% end%>   
+  </li>
+  <li><a href="<%= edit_appln_info_alternate_certification_path(@appln_info,@appln_info.alternate_certification) %>"><span class="<%= controller.class == AlternateCertificationsController ? 'li-block-select' : 'li-block' %>">&nbsp;4</span>Certification Documents</a>
+    <% if current_user.veteran? && @appln_info.alternate_certification_vob_done == true%>
+    <span class="glyphicon glyphicon-star-green"></span>
+    <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_declaration_path(@appln_info,@appln_info.declaration) %>"><span class="<%= controller.class == DeclarationsController ? 'li-block-select' : 'li-block' %>">&nbsp;5</span>Declaration</a>
+    <% if current_user.veteran? && @appln_info.declaration_vob_done == true%>
+    <span class="glyphicon glyphicon-star-green"></span>
+    <% end%>
+  </li>
+  <li>
+    <a href="<%= edit_appln_info_path(@appln_info) %>"><span class="<%= controller.class == ApplnInfosController && controller.action_name != 'show' ? 'li-block-select' : 'li-block' %>">6</span>Summary and Submission</a>
+  </li> 
+  <% if current_user.veteran? %>  
+  <% unless @appln_info.not_started? || @appln_info.in_progress? %> 
+  <li><a href="<%= appln_info_path(@appln_info) %>"><span class="<%= controller.class == ApplnInfosController && controller.action_name == 'show' ? 'li-block-double-select' : 'li-block-double' %>">7</span>Submitted for Review</a></li>  
+  <% else %>  
+  <li><a href="javascript:void();" onclick="alert('You cannot go to this step until you submit the application for review..!')"><span class="<%= controller.class == ApplnInfosController && controller.action_name == 'show' ? 'li-block-double-select' : 'li-block-double' %>">7</span>Submitted for review</a></li>  
+  <% end %>  
+  <% end %>
+</ol>  
+<% else %> 
+
+<ol class="list-unstyled app-steps" data-app-company-info="<%=@appln_info.company_info_vob_done %>">
+  <li><a href="<%= edit_appln_info_company_info_path(@appln_info,@appln_info.company_info) %>"><span class="<%= controller.class == CompanyInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;1</span>Company Info</a> 
+  <% if current_user.veteran? && @appln_info.company_info_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%> </li>
+  <li><a href="<%= edit_appln_info_identity_info_path(@appln_info,@appln_info.identity_info) %>"><span class="<%= controller.class == IdentityInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;2</span>Veteran Identity Info</a>  
+  <% if current_user.veteran? &&  @appln_info.identity_vob_done == true %>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%> 
+  </li>
+  <li><a href="<%= edit_appln_info_business_profile_info_path(@appln_info,@appln_info.business_profile_info) %>"><span class="<%= controller.class == BusinessProfileInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;3</span>Business Profile Info</a>
+  <% if current_user.veteran? && @appln_info.business_profile_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_business_structure_path(@appln_info,@appln_info.business_structure) %>"><span class="<%= controller.class == BusinessStructuresController ? 'li-block-select' : 'li-block' %>">&nbsp;4</span>Business Structure</a>
+  <% if current_user.veteran? && @appln_info.business_structure_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_business_relationship_info_path(@appln_info,@appln_info.business_relationship_info) %>"><span class="<%= controller.class == BusinessRelationshipInfosController ? 'li-block-select' : 'li-block' %>">&nbsp;5</span>Business Relationships</a>
+  <% if current_user.veteran? && @appln_info.business_relationship_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_staff_and_responsibility_path(@appln_info,@appln_info.staff_and_responsibility) %>"><span class="<%= controller.class == StaffAndResponsibilitiesController ? 'li-block-select' : 'li-block' %>">&nbsp;6</span>Staff & Responsiblities</a>
+  <% if current_user.veteran? && @appln_info.staff_responsibility_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_bank_detail_path(@appln_info,@appln_info.bank_detail) %>"><span class="<%= controller.class == BankDetailsController ? 'li-block-select' : 'li-block' %>">&nbsp;7</span>Bank Details</a>
+  <% if current_user.veteran? && @appln_info.bank_detail_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_legal_and_financial_document_path(@appln_info,@appln_info.legal_and_financial_document) %>"><span class="<%= controller.class == LegalAndFinancialDocumentsController ? 'li-block-select' : 'li-block' %>">&nbsp;8</span>Legal & Financial</a>
+  <% if current_user.veteran? && @appln_info.legal_financial_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  </li>
+  <li><a href="<%= edit_appln_info_declaration_path(@appln_info,@appln_info.declaration) %>"><span class="<%= controller.class == DeclarationsController ? 'li-block-select' : 'li-block' %>">&nbsp;9</span>Declaration</a>
+  <% if current_user.veteran? && @appln_info.declaration_vob_done == true%>
+  <span class="glyphicon glyphicon-star-green"></span>
+  <% end%>
+  
+  </li>
+  <li><a href="<%= edit_appln_info_site_visit_path(@appln_info,@appln_info.site_visit) %>"><span class="<%= controller.class == SiteVisitsController ? 'li-block-double-select' : 'li-block-double' %>">10</span>Site Visit</a> 
+  <% if current_user.veteran? && @appln_info.site_visit_vob_done == true && @appln_info.site_visit.vob_status == true %>
+   <span class="glyphicon glyphicon-star-green"></span>
+   <% end%>
+  </li> 
+  <li><a href="<%= edit_appln_info_path(@appln_info) %>"><span class="<%= controller.class == ApplnInfosController && controller.action_name != 'show' ? 'li-block-double-select' : 'li-block-double' %>">11</span>Summary and Submission</a></li> 
+   <% if current_user.veteran? %>  
+  <% unless @appln_info.not_started? || @appln_info.in_progress? %>  
+  <li><a href="<%= appln_info_path(@appln_info) %>"><span class="<%= controller.class == ApplnInfosController && controller.action_name == 'show' ? 'li-block-double-select' : 'li-block-double' %>">12</span>Submitted for Review</a></li>  
+  <% else %>  
+  <li><a href="javascript:void();" onclick="alert('You cannot go to this step until you submit the application for review..!')"><span class="<%= controller.class == ApplnInfosController && controller.action_name == 'show' ? 'li-block-double-select' : 'li-block-double' %>">12</span>Submitted for review</a></li>  
+  <% end %> 
+   <% end %>   
+ </ol>
+                                                                                        
+<% end %></br>   
+<% if current_user.veteran? %>
+GREEN Star(<span class="glyphicon glyphicon-star-green"></span>) = Complete
+<% end %>
